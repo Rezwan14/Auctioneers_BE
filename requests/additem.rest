@@ -1,5 +1,6 @@
 POST http://localhost:3003/api/items
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWQiOiI2NGJjOTYxNzlkMWZhNmNmYWM3YTc1NTkiLCJpYXQiOjE2OTAwODIxNDMsImV4cCI6MTY5MDA4NTc0M30.CMtn4QPAo5yrFPHgD5sKq41zdjrNoDAEPVq_pwZArDw
 
 {
   "itemName": "Gameboy",
