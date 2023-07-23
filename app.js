@@ -6,6 +6,8 @@ const cors = require("cors")
 const logger = require("./utils/logger")
 const middleware = require("./utils/middleware")
 const mongoose = require("mongoose")
+const itemsRouter = require('./controllers/item')
+
 
 const url = config.MONGODB_URI
 logger.info("connecting to MongoDB")
@@ -20,6 +22,7 @@ mongoose
 app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger)
+app.use('/api/items', itemsRouter)
 
 
 
