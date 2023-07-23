@@ -1,0 +1,12 @@
+POST http://localhost:3003/api/items
+Content-Type: application/json
+
+{
+  "itemName": "Gameboy",
+  "category": "Electronics",
+  "description": "Cool item!",
+  "startingBid": 100,
+  "startTime": "10:00 AM",
+  "startDate": "2023-07-23",
+  "endDate": "2023-07-25"
+}
