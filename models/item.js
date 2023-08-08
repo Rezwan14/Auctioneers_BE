@@ -26,10 +26,13 @@ const itemSchema = new mongoose.Schema({
       type: Date,
       required: true,
     },
-    endDate:{
-      type: Date,
-      required: true,
+    participants:{
+      type: Number,
+      default: 0,
     },
+    listParticipants:[{
+      type: String
+    }],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

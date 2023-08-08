@@ -29,7 +29,8 @@ itemsRouter.post('/', async (request, response) => {
     startingBid: body.startingBid,
     startTime: body.startTime,
     startDate: body.startDate,
-    endDate: body.endDate,
+    participants: body.participants,
+    listParticipants: body.listParticipants,
     user: user._id
   }).populate("user", {username: 1, firstName: 1, lastName: 1})
 
