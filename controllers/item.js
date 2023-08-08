@@ -43,6 +43,33 @@ itemsRouter.post('/', async (request, response) => {
   .json(save.toJSON())
 })
 
+itemsRouter.put('/:id', async (request, responds) => {
+  const id = request.params.id
+  const body = request.body
+
+  const updatedItem = {
+    itemName: body.itemName,
+    category: body.category,
+    description: body.description,
+    startingBid: body. startingBid,
+    startTime: body.startTime,
+    startDate: body.startDate,
+    participants: body.partipants,
+    listParticipants: body.listParticipants
+  }
+
+  const result = await Item
+    .findByIdAndUpdate(id, updatedItem, {new: true})
+
+  if (result){
+    express.response.json(result)
+  }else{
+    response
+      .status(404)
+      .end()
+  }
+  
+})
 
 
 module.exports = itemsRouter
