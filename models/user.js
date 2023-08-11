@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
   },
   firstName: String,
   lastName: String,
+  creditCard: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'CreditCard'
+  }, 
   items: [
     {
       type: mongoose.Schema.Types.ObjectId,
