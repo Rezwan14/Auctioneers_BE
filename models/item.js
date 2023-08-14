@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
+
 //item name, category, description, starting bid, time, start date, end date
 const itemSchema = new mongoose.Schema({
     itemName:{
@@ -40,6 +41,7 @@ const itemSchema = new mongoose.Schema({
     
 })
 
+//Transforms the schema output and adds validation using
 itemSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()

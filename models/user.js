@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   country: String,
 });
 
-
+//Transforms the schema output and adds validation
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()

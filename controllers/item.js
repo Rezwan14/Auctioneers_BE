@@ -4,25 +4,27 @@ const express = require('express')
 const Item = require('../models/item')
 const itemsRouter = express.Router()
 
-itemsRouter.get('/', async (request, response) => {
+itemsRouter.get('/', async (request, response) => {//retreive all items
   const items = await Item
     .find({})
     .populate("user", {username: 1, fistName: 1, lastName: 1})
   response.json(items)
 })
 
+
+//user login by comparing credentials and generating a JWT token
 itemsRouter.post('/', async (request, response) => {
   const body = request.body
   const token = request.token
-  const decodedToken = jwt.verify(token, config.SECRET)
-  if (!decodedToken.id) {
+  const decodedToken = jwt.verify(token, config.SECRET) //verify and decode JWT token 
+  if (!decodedToken.id) {//check if contains valid user iD
     return response
       .status(401)
       .json({ error: 'Token missing or invalid' })
   }
 
   const user = request.user
-  const item = await new Item({
+  const item = await new Item({//create new item
     itemName: body.itemName,
     category: body.category,
     description: body.description,
@@ -43,6 +45,7 @@ itemsRouter.post('/', async (request, response) => {
   .json(save.toJSON())
 })
 
+//update items 
 itemsRouter.put('/:id', async (request, responds) => {
   const id = request.params.id
   const body = request.body
@@ -59,7 +62,7 @@ itemsRouter.put('/:id', async (request, responds) => {
   }
 
   const result = await Item
-    .findByIdAndUpdate(id, updatedItem, {new: true})
+    .findByIdAndUpdate(id, updatedItem, {new: true})//find and update item
 
   if (result){
     express.response.json(result)

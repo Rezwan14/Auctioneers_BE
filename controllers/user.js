@@ -5,19 +5,20 @@ const User = require('../models/user')
 
 const usersRouter = express.Router()
 
+//handles user registration by hashing the password and saving user data
 usersRouter.post('/register', async (request, response) => {
     const { username, password, firstName, lastName, email, birthday, country } = request.body
 
-    if (!username || !password) {
+    if (!username || !password) {//checking missing inputs
         return response.status(400).json({ error: 'Username or password is missing' })
     }
-    if (username.length < 3 || password.length < 3) {
+    if (username.length < 3 || password.length < 3) {//username and password limit character
         return response
             .status(400)
             .json({ error: 'Both username and password must be at least 3 characters long' });
     }
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ username });//should be unique
     if (existingUser) {
         return response.status(400).json({ error: 'Username must be unique' });
     }
@@ -38,6 +39,7 @@ usersRouter.post('/register', async (request, response) => {
     response.status(201).json(savedUser)
 })
 
+//retrieves all users along with their associated auction items
 usersRouter.get('/', async (request, response) => {
     const users = await User.find({}).populate('items', { 
       itemName: 1, 
