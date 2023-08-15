@@ -1,7 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const auctionModel = require("../model/auctionsModel");
-const { Types } = require("mongoose");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 exports.createAuction = catchAsync(async (req, res, next) => {
   const { name, description, startingBid, currentBid, endDate, winner } =
@@ -34,3 +34,12 @@ exports.createAuction = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.getMyAuctions = catchAsync(async (req, res) => {
+  const data = await auctionModel.find({
+    auction_owner_id: ObjectId(req.user._id),
+  });
+  res.status(200).json({
+    status: "success",
+    data,
+  });
+});
