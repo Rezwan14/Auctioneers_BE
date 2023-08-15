@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'CreditCard'
   }, 
+  userProfile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'userProfile'
+  },
   items: [
     {
       type: mongoose.Schema.Types.ObjectId,

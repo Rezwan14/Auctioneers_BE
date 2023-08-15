@@ -8,7 +8,7 @@ const PORT = 5000;
 app.use(express.json());
 
 app.post('/api/link-credit-card', async (req, res) => {
-  const { username, cardNumber } = req.body;
+  const { username, cardNumber, nameOnCard, expiryDate, cvv } = req.body;
 
   try {
     const user = await User.findOne({ username });
@@ -20,6 +20,12 @@ app.post('/api/link-credit-card', async (req, res) => {
 
     user.creditCard = creditCard._id;
     await user.save();
+
+    // Update credit card details
+    creditCard.nameOnCard = nameOnCard;
+    creditCard.expiryDate = expiryDate;
+    creditCard.cvv = cvv;
+    await creditCard.save();
 
     res.status(200).json({ message: 'Credit card linked successfully' });
   } catch (error) {

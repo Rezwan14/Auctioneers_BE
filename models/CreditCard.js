@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const creditCardSchema = new mongoose.Schema({
   cardNumber: String,
+  nameOnCard: String,
+  expiryDate: String,
+  cvv: String,
   balance: Number,
 });
 
-creditCardSchema.plugin(uniqueValidator)
-const CreditCard = mongoose.model('CreditCard', creditCardSchema);
-module.exports = CreditCard;
+module.exports = mongoose.model('CreditCard', creditCardSchema);
