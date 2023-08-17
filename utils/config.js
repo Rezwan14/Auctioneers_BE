@@ -1,4 +1,4 @@
-require('dotenv').config() //Loads environment variables from .env using the dotenv 
+require('dotenv').config()
 
 const SECRET = process.env.SECRET
 const PORT = process.env.PORT

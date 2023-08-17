@@ -16,8 +16,8 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: [validator.isEmail, "Please provide a valid email"],
     },
-    phoneNumber:{
-      type: Number
+    phoneNumber: {
+      type: Number,
     },
     password: {
       type: String,
@@ -99,6 +99,6 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-const User = mongoose.model("User", userSchema);
+const Users = mongoose.model("Users", userSchema);
 
-module.exports = User;
+module.exports = Users;

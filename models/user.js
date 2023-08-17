@@ -1,50 +1,57 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator')
+const express = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-    minlength: 3,
-  },
-  passwordHash: {
-    type: String,
-    required: true,
-  },
-  firstName: String,
-  lastName: String,
-  creditCard: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'CreditCard'
-  }, 
-  userProfile: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'userProfile'
-  },
-  items: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Item',
-    },
-  ],
+const usersRouter = express.Router();
 
-  email: String,
-  birthday: Date,
-  country: String,
+usersRouter.post("/register", async (request, response) => {
+  const { username, password, firstName, lastName, email, birthday, country } =
+    request.body;
+
+  if (!username || !password) {
+    return response
+      .status(400)
+      .json({ error: "Username or password is missing" });
+  }
+  if (username.length < 3 || password.length < 3) {
+    return response.status(400).json({
+      error: "Both username and password must be at least 3 characters long",
+    });
+  }
+
+  const existingUser = await User.findOne({ username });
+  if (existingUser) {
+    return response.status(400).json({ error: "Username must be unique" });
+  }
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
+
+  const user = new User({
+    username,
+    passwordHash,
+    firstName,
+    lastName,
+    email,
+    birthday,
+    country,
+  });
+
+  const savedUser = await user.save();
+  response.status(201).json(savedUser);
 });
 
-//Transforms the schema output and adds validation
-userSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-    delete returnedObject.passwordHash
-  }
-})
+usersRouter.get("/", async (request, response) => {
+  const users = await User.find({}).populate("items", {
+    itemName: 1,
+    category: 1,
+    description: 1,
+    startingBid: 1,
+    startTime: 1,
+    startDate: 1,
+    endDate: 1,
+  });
+  response.json(users);
+});
 
-userSchema.plugin(uniqueValidator)
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = usersRouter;

@@ -3,14 +3,10 @@ const router = express.Router();
 const {
   createBid,
   getAllBidsByUserForAuction,
-} = require("../controller/bidController");
-const { protect } = require("../controller/authController");
+} = require("../controllers/bidController");
+const { protect } = require("../controllers/authController");
 
-router.post("/create/:auction_id", protect, createBid);
-router.get(
-  "/specificAuctionByUser/:auction_id",
-  protect,
-  getAllBidsByUserForAuction
-);
+router.post("/create/:auction_id", createBid);
+router.get("/specificAuctionByUser/:auction_id", getAllBidsByUserForAuction);
 
 module.exports = router;
